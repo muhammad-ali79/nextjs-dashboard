@@ -1,0 +1,50 @@
+OPTIMIZATION
+Q:How Nextjs Optimize Fonts
+A:Next.js automatically optimizes fonts in the application when you use the next/font module. It downloads font files at build time and hosts them with your other static assets.
+
+
+what next/image component do
+1. Preventing layout shift automatically when images are loading.
+2. Resizing images to avoid shipping large images to devices with a smaller viewport.
+3. Lazy loading images by default (images load as they enter the viewport).
+4. Serving images in modern formats, like WebP and AVIF, when the browser supports it.
+
+LAYOUT
+Q: what is Colocation
+A: we can use additional files like syles etc in routes becuse of special files like page.tsx , layout tsx
+
+Q: Why we use the layout.tsx file
+In Next.js, you can use a special layout.tsx file to create UI that is shared between multiple pages.
+
+Q: what is root layout
+A:  Any UI you add to the root layout will be shared across all pages in your application.
+
+Q: how naviagation works in Nextjs
+A: https://nextjs.org/learn/dashboard-app/navigating-between-pages#automatic-code-splitting-and-prefetching
+
+FETCHING DATA
+There are a few cases where you have to write database queries:
+
+1. When creating your API endpoints, you need to write logic to interact with your database.
+2. If you are using React Server Components (fetching data on the server), you can skip the API layer, and query your database directly without risking exposing your database secrets to the client.
+
+when fetching data on the server components we can do fetching on the server and only send the response to the client
+
+RENDRING   
+Q: what is static rendering
+
+https://nextjs.org/learn/dashboard-app/static-and-dynamic-rendering#what-is-static-rendering
+
+With static rendering, data fetching and rendering happens on the server at build time (when you deploy) or during revalidation. The result can then be distributed and cached in a Content Delivery Network (CDN).
+
+benefits of static rendering
+Faster Websites - Prerendered content can be cached and globally distributed. This ensures that users around the world can access your website's content more quickly and reliably.
+Reduced Server Load - Because the content is cached, your server does not have to dynamically generate content for each user request.
+SEO - Prerendered content is easier for search engine crawlers to index, as the content is already available when the page loads. This can lead to improved search engine rankings.
+Static rendering is useful for UI with no data or data that is shared across users, such as a static blog post or a product page. It might not be a good fit for a dashboard that has personalized data that is regularly updated.
+
+
+Nextjs uses bydefault static rendering os the data changes then we need to use dynamic rendering
+
+Q:what is dynamic rendering
+https://nextjs.org/learn/dashboard-app/static-and-dynamic-rendering#what-is-dynamic-rendering
