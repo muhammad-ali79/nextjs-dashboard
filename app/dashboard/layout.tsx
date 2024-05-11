@@ -7,9 +7,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="w-full flex-none md:w-64">
         <SideNav />
       </div>
-      {/* layout file is used whenever we want to dispaly the ui that is similar in multiple pages*/}
+      {/* layout file is used whenever we want to dispaly the ui that is similar in multiple pages in a route*/}
 
-      {/* The <Layout /> component receives a children prop. This child can either be a page or another layout. In your case, the pages inside /dashboard will automatically be nested inside a <Layout /> */}
+      {/* The <Layout /> component receives a children prop. This child can either be a page or another layout. In my case, the pages inside /dashboard will automatically be nested inside a <Layout /> */}
 
       {/* children is the page of every route  */}
       <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>

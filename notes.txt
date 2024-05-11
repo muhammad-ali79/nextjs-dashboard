@@ -11,10 +11,14 @@ what next/image component do
 
 LAYOUT
 Q: what is Colocation
-A: we can use additional files like syles etc in routes becuse of special files like page.tsx , layout tsx
+A: we can use additional files like styles etc in routes becuse of special files like page.tsx , layout tsx
+
+
 
 Q: Why we use the layout.tsx file
 In Next.js, you can use a special layout.tsx file to create UI that is shared between multiple pages.
+
+A layout can only share ui in one route otherwise root layout
 
 Q: what is root layout
 A:  Any UI you add to the root layout will be shared across all pages in your application.
@@ -44,7 +48,230 @@ SEO - Prerendered content is easier for search engine crawlers to index, as the 
 Static rendering is useful for UI with no data or data that is shared across users, such as a static blog post or a product page. It might not be a good fit for a dashboard that has personalized data that is regularly updated.
 
 
-Nextjs uses bydefault static rendering os the data changes then we need to use dynamic rendering
+
+unstable_noStore Api:
+fetch data on each user request when user visites the page
+
+
+Nextjs uses by default static rendering as the data changes then we need to use dynamic rendering
 
 Q:what is dynamic rendering
 https://nextjs.org/learn/dashboard-app/static-and-dynamic-rendering#what-is-dynamic-rendering
+
+
+STREAMING
+Two types of Stream
+1. page level streaming with loading.txt
+2. component level streaming with suspense
+ To implement streaming to overViewPage then we can place our loading.txt in (overView folder) this is also called route Group
+
+Grouping Components:
+if we want to show some same type of component at the same time unless show each component one by one the we can group all the related components in one component and import this one component and apply streaming then all the component load all at the same time. to prevent shattering effect of ui
+
+
+Where you place your suspense boundaries will vary depending on your application. In general, it's good practice to move your data fetches down to the components that need it, and then wrap those components in Suspense. But there is nothing wrong with streaming the sections or the whole page if that's what your application needs.
+
+
+PARTIAL RENDRING
+Next.js 14 contains a preview of Partial Prerendering – an experimental feature that allows you to render a route with a static loading shell, while keeping some parts dynamic. In other words, you can isolate the dynamic parts of a route. For example:
+
+When a user visits a route:
+A static route shell is served, ensuring a fast initial load.
+The shell leaves holes where dynamic content will load in asynchronous.
+The async holes are streamed in parallel, reducing the overall load time of the page. in simple we dont need to make our component dynamic by writing some code
+
+
+
+SEARCHING AND PAGINATION
+why use the url Search parmas
+https://nextjs.org/learn/dashboard-app/adding-search-and-pagination#why-use-url-search-params
+
+
+what is URLSearchParams
+URLSearchParams is a Web API that provides utility methods for manipulating the URL query parameters. Instead of creating a complex string literal, you can use it to get the params string like ?page=1&query=a.
+
+
+value vs defaultValue
+value should be used when we are using state to make the component controlled by React. in client side react. when we are updating the inputField throug useState
+
+defaultValue should be used when we are are not using the state. This means the native input will manage its own state
+
+
+Every page component in nextjs will accept a  serchParams prop which will be the searchparams of the url and we can extract the related things from the url
+
+we should use the useSearchParams hook when we are working in clinet component and searchparams prop when the component is server component
+
+Debounding:
+Debouncing is a programming practice that limits the rate at which a function can fire. In our case, you only want to query the database when the user has stopped typing.
+
+How Debouncing Works:
+
+Trigger Event: When an event that should be debounced (like a keystroke in the search box) occurs, a timer starts.
+Wait: If a new event occurs before the timer expires, the timer is reset.
+Execution: If the timer reaches the end of its countdown, the debounced function is executed.
+
+
+MUTATING DATA
+what are sever actions
+React Server Actions allow you to run asynchronous code directly on the server. They eliminate the need to create API endpoints to mutate your data. Instead, you write asynchronous functions that execute on the server and can be invoked from your Client or Server Components
+
+Why sever actions
+Security is a top priority for web applications, as they can be vulnerable to various threats. This is where Server Actions come in. They offer an effective security solution, protecting against different types of attacks, securing your data, and ensuring authorized access. Server Actions achieve this through techniques like POST requests, encrypted closures, strict input checks, error message hashing, and host restrictions, all working together to significantly enhance your app's safety.
+
+using form with server actions
+An advantage of invoking a Server Action within a Server Component is progressive enhancement - forms work even if JavaScript is disabled on the client.
+That's right! This allows users to interact with the form and submit data even if the JavaScript for the form hasn't been loaded yet or if it fails to load.
+
+FormData object give method and propertis to manipulate and retrive the form data
+
+zod:
+we can use the zod to check the types of the data coming from FORM to validate before saving it into the database
+
+split method:
+split will split a string even in muilitple indexes on a character which we will pass in method
+
+Client-side Router cached
+Next.js has a Client-side Router Cache that stores the route segments in the user's browser for a time. Along with prefetching, this cache ensures that users can quickly navigate between routes while reducing the number of requests made to the server.
+
+You can also write Server Actions directly inside Server Components by adding "use server" inside the action.
+
+dynamic routes
+Next.js allows you to create Dynamic Route Segments when you don't know the exact segment name and want to create routes based on data
+
+In addition to searchParams, page components also accept a prop called params which you can use to access the id.
+
+ERROR HANDLING
+It accepts two props:
+error: This object is an instance of JavaScript's native Error object.
+
+reset: This is a function to reset the error boundary. When executed, the function will try to re-render the route segment.
+
+
+not found
+While error.tsx is useful for catching all errors, notFound can be used when you try to fetch a resource that doesn't exist.
+
+That's something to keep in mind, notFound will take precedence over error.tsx, so you can reach out for it when you want to handle more specific errors!
+
+Chapter 14
+IMPROVING ACCESSIBILITY
+
+what is accessiblity
+Accessibility refers to designing and implementing web applications that everyone can use, including those with disabilities
+
+
+eslint-plugin-jsx-a11y
+Nextjs has this plugin by default. this plugin warns if you have images without alt text, use the aria-* and role attributes incorrectly, and more.
+
+Things to Done in Forms to improve accessiblity
+Semantic HTML
+Labelling
+Focus Outline:
+This is critical for accessibility as it visually indicates the active element on the page, helping both keyboard and screen reader users to understand where they are on the form 
+
+linting erros also check when deploying to vercel
+
+Two Types of Form Validation:
+Client-Side validation:
+The simplest would be to rely on the form validation provided by the browser by adding the required attribute to the <input> and <select> elements in your forms
+
+Server-Side validation:
+By validating forms on the server, you can:
+
+Ensure your data is in the expected format before sending it to your database.
+
+Reduce the risk of malicious users bypassing client-side validation.
+
+Have one source of truth for what is considered valid data.
+
+useFormState
+useFormState is a Hook that allows you to update state based on the result of a form action.
+
+safeParse() will return an object containing either a success or error field. This will help handle validation more gracefully without having put this logic inside the try/catch block. without breaking our application it helps in showing error messages to user
+
+aria-describedby
+aria-describedby="customer-error": This establishes a relationship between the select element and the error message container
+
+
+
+aria-live="polite":
+ The screen reader should politely notify the user when the error inside the div is updated
+
+
+
+ CHAPTER 15 
+ ADDING AUTHENTICATION
+
+ authConfig object
+  This object will contain the configuration options for NextAuth.js
+
+
+  pages Option:
+  By adding the pages in authConfig our custom routes will be used uless nextjs-auth default auth pages
+
+  authorized Callback:
+  The authorized callback is used to verify if the request is authorized to access a page via Next.js Middleware
+
+
+  matcher:
+  matcher option from Middleware to specify that it should run on specific paths.
+
+
+
+The advantage of employing Middleware for this task is that the protected routes will not even start rendering until the Middleware verifies the authentication, enhancing both the security and performance of your application.
+
+
+bcrypt relies on Node.js APIs not available in Next.js Middleware.
+
+
+CHAPTER 16
+ADDING METADATA:
+Metadata is crucial for SEO and shareability.
+
+Metadata is curical for serach engines
+
+Open Graph:
+Additionally, metadata like Open Graph improves the appearance of shared links on social media, making the content more appealing and informative for users.
+
+Types of Metadata:
+1. Title Metadata
+2. Description Metadata
+3. Open Graph Metadata
+4. Favicon Metadata
+
+
+Nextjs MetaData Api:
+There are two ways you can define your app metadata:
+1. config-based:
+Export a static metadata object or a dynamic generateMetadata function in a layout.js or page.js file.
+
+
+2. File-based:
+ Next.js has a range of special files that are specifically used for metadata purposes.
+
+ https://nextjs.org/learn/dashboard-app/adding-metadata#adding-metadata
+
+Move these images to the root of your /app folder. then nextjs will automatically add these as metadata
+
+
+Good to know: You can also create dynamic openGraph images using the ImageResponse constructor.
+
+
+You can also include a metadata object from any layout.js or page.js file to add additional page information like title and description. Any metadata in layout.js will be inherited by all pages that use it
+
+
+For Page Level metadata:
+You can do this by adding a metadata object to the page itself. Metadata in nested pages will override the metadata in the parent.
+
+
+using Tempates:
+we can also use the %s template to not need to repeate the app original title on every page
+
+
+For more like keywrods, robtos, go to docs
+
+
+
+// qs
+How page component accepts params
+
+what will happen when the data return from the action does not the type of that useFormState accepts

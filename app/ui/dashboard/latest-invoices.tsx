@@ -6,10 +6,10 @@ import { LatestInvoice } from '@/app/lib/definitions';
 import { fetchLatestInvoices } from '@/app/lib/data';
 export default async function LatestInvoices() {
   // lates invoices is an array of objects
-  console.log('Fetching for latestInvoices');
+  // console.log('Fetching for latestInvoices');
 
   const latestInvoices = await fetchLatestInvoices();
-  console.log('latestInvoices', latestInvoices);
+  // console.log('latestInvoices', latestInvoices);
 
   return (
     <div className="flex w-full flex-col md:col-span-4">
@@ -20,7 +20,7 @@ export default async function LatestInvoices() {
         {/* NOTE: comment in this code when you get to this point in the course */}
 
         <div className="bg-white px-6">
-          {latestInvoices.map((invoice, i) => {
+          {latestInvoices.map((invoice: any, i: any) => {
             return (
               <div
                 key={invoice.id}

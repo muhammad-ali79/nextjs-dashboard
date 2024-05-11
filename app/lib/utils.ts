@@ -41,9 +41,13 @@ export const generateYAxis = (revenue: Revenue[]) => {
 export const generatePagination = (currentPage: number, totalPages: number) => {
   // If the total number of pages is 7 or less,
   // display all pages without any ellipsis.
-  if (totalPages <= 7) {
+  if (totalPages <= 7)
+    // Array.from takes an object with a single property: length.
+
+    // The value of length is set to totalPages. This tells Array.from how many elements to include in the new array.
+
+    // Essentially, the code creates an empty list with totalPages slots, and then fills those slots with numbers from 1 to totalPages.
     return Array.from({ length: totalPages }, (_, i) => i + 1);
-  }
 
   // If the current page is among the first 3 pages,
   // show the first 3, an ellipsis, and the last 2 pages.
